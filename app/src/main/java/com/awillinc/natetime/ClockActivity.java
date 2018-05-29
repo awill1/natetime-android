@@ -102,7 +102,7 @@ public class ClockActivity extends AppCompatActivity {
         locationTxtView.setText(String.format("Location: %f° Lat, %f° Lon" , latitude, longitude));
 
         // Calculate sunrise and sunset. Source is https://github.com/caarmen/SunriseSunset
-        Calendar[] sunriseSunset = ca.rmen.sunrisesunset.SunriseSunset.getSunriseSunset(Calendar.getInstance(), latitude, longitude);
+        Calendar[] sunriseSunset = ca.rmen.sunrisesunset.SunriseSunset.getSunriseSunset(c, latitude, longitude);
         Date sunrise = sunriseSunset[0].getTime();
         Date sunset = sunriseSunset[1].getTime();
         // Get the sunrise time
@@ -131,7 +131,18 @@ public class ClockActivity extends AppCompatActivity {
         }
         else {
             // Get tomorrow's sunrise time then calculate the time until sunrise
-            nateTimeTxtView.setText(String.format("Nate Time: It is night after sunset"));
+            Calendar tomorrow = Calendar.getInstance();
+            // TODO: Test tomorrow being Jan 1
+            tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+            Calendar[] tomorrowSunriseSunset = ca.rmen.sunrisesunset.SunriseSunset.getSunriseSunset(tomorrow, latitude, longitude);
+
+            Date tomorrowSunrise = tomorrowSunriseSunset[0].getTime();
+            Date tomorrowSunset = tomorrowSunriseSunset[1].getTime();
+            long diff = tomorrowSunrise.getTime() - currentTime.getTime();
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000);
+            nateTimeTxtView.setText(String.format("Nate Time: %d:%d:%d until sunrise", diffHours, diffMinutes, diffSeconds));
         }
 
     }
