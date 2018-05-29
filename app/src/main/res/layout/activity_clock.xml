@@ -42,21 +42,22 @@
         android:layout_alignParentStart="true" />
 
     <TextView
+        android:text="Nate Time:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Current Industrial Time:"
-        android:id="@+id/industrialTimeText"
+        android:id="@+id/nateTimeText"
+        android:layout_marginTop="20dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="Nate Time:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sunsetText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:text="Current Industrial Time:"
+        android:id="@+id/industrialTimeText"
         android:layout_marginTop="27dp"
-        android:id="@+id/nateTimeText" />
+        android:layout_below="@+id/nateTimeText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
