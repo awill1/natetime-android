@@ -91,19 +91,21 @@ public class ClockActivity extends AppCompatActivity {
             System.out.println("No location permissions");
             return;
         }
-        // TODO: Use device location instead of hardcoded version
-        //Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
         double latitude = COLUMBUS_LATITUDE;
         double longitude = COLUMBUS_LONGITUDE;
 
-//        if (location == null) {
-//            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-//            latitude = location.getLatitude();
-//            longitude = location.getLongitude();
-//        } else {
-//            latitude = location.getLatitude();
-//            longitude = location.getLongitude();
-//        }
+        // TODO: Use device location instead of hardcoded version
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        if (location == null) {
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+
+        if (location != null) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+        }
 
         // Now we display locations value in TextView
         TextView locationTxtView = (TextView) findViewById(R.id.locationText);
