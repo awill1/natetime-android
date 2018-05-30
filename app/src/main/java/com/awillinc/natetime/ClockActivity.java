@@ -128,14 +128,14 @@ public class ClockActivity extends AppCompatActivity {
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
             long diffHours = diff / (60 * 60 * 1000);
-            nateTimeTxtView.setText(String.format("Nate Time: %d:%d:%d until sunrise", diffHours, diffMinutes, diffSeconds));
+            nateTimeTxtView.setText(String.format("Nate Time: %02d:%02d:%02d until sunrise", diffHours, diffMinutes, diffSeconds));
         }
         else if (currentTime.before(sunset)) {
             long diff = currentTime.getTime() - sunrise.getTime();
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
             long diffHours = diff / (60 * 60 * 1000);
-            nateTimeTxtView.setText(String.format("Nate Time: %d:%d:%d after sunrise", diffHours, diffMinutes, diffSeconds));
+            nateTimeTxtView.setText(String.format("Nate Time: %02d:%02d:%02d after sunrise", diffHours, diffMinutes, diffSeconds));
         }
         else {
             // Get tomorrow's sunrise time then calculate the time until sunrise
@@ -150,7 +150,7 @@ public class ClockActivity extends AppCompatActivity {
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
             long diffHours = diff / (60 * 60 * 1000);
-            nateTimeTxtView.setText(String.format("Nate Time: %d:%d:%d until sunrise", diffHours, diffMinutes, diffSeconds));
+            nateTimeTxtView.setText(String.format("Nate Time: %02d:%02d:%02d until sunrise", diffHours, diffMinutes, diffSeconds));
         }
 
     }
