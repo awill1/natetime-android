@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+//Testing testing GitHub 1 2 3. -Nate
+
 public class ClockActivity extends AppCompatActivity {
 
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 101;
