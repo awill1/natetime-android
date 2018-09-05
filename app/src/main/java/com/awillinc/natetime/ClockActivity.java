@@ -40,6 +40,7 @@ public class ClockActivity extends AppCompatActivity { //this creates the CLASS 
         updateTime(); //why is updateTime here fhe second time? it looks like it will execute because it is there under onClick in line 36.
 
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -111,23 +112,26 @@ public class ClockActivity extends AppCompatActivity { //this creates the CLASS 
 
         // Now we display locations value in TextView
         TextView locationTxtView = (TextView) findViewById(R.id.locationText);
-        locationTxtView.setText(String.format("Location v1: %f° Lat, %f° Lon" , latitude, longitude));
+        locationTxtView.setText(String.format("Location v3: %f° Lat, %f° Lon", latitude, longitude));
 
         // Calculate sunrise and sunset. Source is https://github.com/caarmen/SunriseSunset
         Calendar[] sunriseSunset = ca.rmen.sunrisesunset.SunriseSunset.getSunriseSunset(c, latitude, longitude);
         Date sunrise = sunriseSunset[0].getTime();
         Date sunset = sunriseSunset[1].getTime();
 
+        // Convert to local daylight time, just so that sunrise sunset are always in the same day. TODO: Remove this.
+        // Date sunrise = sunrise - 4*60*60*1000;
+        // Date sunset = sunset - 4*60*60*1000;
+
         // Get the sunrise time
         TextView sunriseTxtView = (TextView) findViewById(R.id.sunriseText);
-        sunriseTxtView.setText(String.format("Sunrise: %tR" , sunrise));
+        sunriseTxtView.setText(String.format("Sunrise: %tR", sunrise));
 
         // Get the sunset time
         TextView sunsetTxtView = (TextView) findViewById(R.id.sunsetText);
-        sunsetTxtView.setText(String.format("Sunset: %tR" , sunset));
+        sunsetTxtView.setText(String.format("Sunset: %tR", sunset));
 
         //TextView nateTimeTxtView = (TextView) findViewById(R.id.nateTimeText);
-
 
 
         // Calculate post-industrial time
@@ -141,21 +145,26 @@ public class ClockActivity extends AppCompatActivity { //this creates the CLASS 
         long dlHours = dlms / (60 * 60 * 1000);
         dayLengthTxtView.setText(String.format("Day Length: %02d:%02d:%02d", dlHours, dlMinutes, dlSeconds));
 
-        if (currentTime.before(sunrise)) {
+
+        if (currentTime.before(sunrise))
+
+        {
             long diff = sunrise.getTime() - currentTime.getTime();
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
             long diffHours = diff / (60 * 60 * 1000);
             nateTimeTxtView.setText(String.format("Post-Industrial Time: %02d:%02d:%02d until sunrise", diffHours, diffMinutes, diffSeconds));
-        }
-        else if (currentTime.before(sunset)) {
+        } else if (currentTime.before(sunset))
+
+        {
             long diff = currentTime.getTime() - sunrise.getTime();
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
             long diffHours = diff / (60 * 60 * 1000);
             nateTimeTxtView.setText(String.format("Post-Industrial Time: %02d:%02d:%02d after sunrise", diffHours, diffMinutes, diffSeconds));
-        }
-        else {
+        } else
+
+        {
             // Get tomorrow's sunrise time then calculate the time until sunrise
             Calendar tomorrow = Calendar.getInstance();
             // TODO: Test tomorrow being Jan 1
@@ -170,6 +179,5 @@ public class ClockActivity extends AppCompatActivity { //this creates the CLASS 
             long diffHours = diff / (60 * 60 * 1000);
             nateTimeTxtView.setText(String.format("Post-Industrial Time: %02d:%02d:%02d until sunrise", diffHours, diffMinutes, diffSeconds));
         }
-
     }
 }
