@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,26 +18,26 @@ import java.util.Date;
 
 //Testing testing GitHub 1 2 3. -Nate
 
-public class ClockActivity extends AppCompatActivity {
+public class ClockActivity extends AppCompatActivity { //this creates the CLASS ClockActivity
 
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 101;
 
-    public static final double COLUMBUS_LATITUDE = 39.9612;
-    public static final double COLUMBUS_LONGITUDE = -82.9988;
+    public static final double COLUMBUS_LATITUDE = 39.9612; //#aaroncreated
+    public static final double COLUMBUS_LONGITUDE = -82.9988; //"public static final" could be "public final static," public = this string is available outside this method, static = no instance necessary(?), final = value won't change.
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clock);
+    @Override //asserts that the method is going to override something.
+    protected void onCreate(Bundle savedInstanceState) { // this prevents from losing previous information(?) Aaron, are you re-writing the already-existing method onCreate here? void means the method doesn't return anything. protected means protected instead of public. Aaron, Why protected here?
+        super.onCreate(savedInstanceState); //this entire line says to run the onCreate Activity IN ADDITION TO the existing Activity and not override the whole thing.
+        setContentView(R.layout.activity_clock); //#aaroncreated in Android the visual design is created in xml . And each Activity is associated to a design. R means resource. layout means design. Aaron, you must have set a layout or design in activity_clock that you are calling here?
 
-        Button button = (Button) findViewById(R.id.refreshButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        Button button = (Button) findViewById(R.id.refreshButton); //this looks like the opening line to adding the refresh button to the bottom of the screen and saying what to do when it's pressed. Why button three times? Each one fills a required
+        button.setOnClickListener(new View.OnClickListener() { //this says to listen for the button to be clicked and
+            public void onClick(View v) { //you did not make v. That looks like a user variable, but actually a v is the view that was clicked. Why have this whole onClick method? why not just have the updateTime method execute? probably because it does all the other standard stuff that happens when a button is clicked like change what it looks like?
                 updateTime();
             }
         });
 
-        updateTime();
+        updateTime(); //why is updateTime here fhe second time? it looks like it will execute because it is there under onClick in line 36.
 
     }
     @Override
@@ -62,18 +62,18 @@ public class ClockActivity extends AppCompatActivity {
         }
     }
 
-    public void updateTime() {
+    public void updateTime() { //#aaroncreated OK I'm skipping down to here because I see all these "public voids" which are methods, which means you are either making/defining something or doing something. This method clearly falls under the doing something heading.
         // Get the current industrial time
         Calendar c = Calendar.getInstance();
         Date currentTime = c.getTime();
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = df.format(currentTime);
+        String formattedDate = df.format(currentTime); //#aaroncreated c and df. c is the current industrial time. df is a time/date format to work with. #aaroncreated formatteddate, which is the date in format df
         // formattedDate have current date/time
 
         // Now we display formattedDate value in TextView
-        TextView txtView = (TextView) findViewById(R.id.industrialTimeText);
-        txtView.setText("Current Industrial Time: " + formattedDate);
+        TextView txtView = (TextView) findViewById(R.id.industrialTimeText); //#aaroncreated ... I KNOW you created industrialTimeText, but where did you define it? Are you defining it here? What
+        txtView.setText("Current Industrial Time: " + formattedDate); //#aaroncreated this text obviously
 
         // Get the location
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -111,12 +111,13 @@ public class ClockActivity extends AppCompatActivity {
 
         // Now we display locations value in TextView
         TextView locationTxtView = (TextView) findViewById(R.id.locationText);
-        locationTxtView.setText(String.format("Location: %f° Lat, %f° Lon" , latitude, longitude));
+        locationTxtView.setText(String.format("Location v1: %f° Lat, %f° Lon" , latitude, longitude));
 
         // Calculate sunrise and sunset. Source is https://github.com/caarmen/SunriseSunset
         Calendar[] sunriseSunset = ca.rmen.sunrisesunset.SunriseSunset.getSunriseSunset(c, latitude, longitude);
         Date sunrise = sunriseSunset[0].getTime();
         Date sunset = sunriseSunset[1].getTime();
+
         // Get the sunrise time
         TextView sunriseTxtView = (TextView) findViewById(R.id.sunriseText);
         sunriseTxtView.setText(String.format("Sunrise: %tR" , sunrise));
@@ -125,21 +126,34 @@ public class ClockActivity extends AppCompatActivity {
         TextView sunsetTxtView = (TextView) findViewById(R.id.sunsetText);
         sunsetTxtView.setText(String.format("Sunset: %tR" , sunset));
 
-        // Calculate nate time
+        //TextView nateTimeTxtView = (TextView) findViewById(R.id.nateTimeText);
+
+
+
+        // Calculate post-industrial time
         TextView nateTimeTxtView = (TextView) findViewById(R.id.nateTimeText);
+        TextView dayLengthTxtView = (TextView) findViewById(R.id.dayLengthText);
+
+        //Get the day length and display it.
+        long dlms = sunset.getTime() - sunrise.getTime(); //day length in milliseconds.
+        long dlSeconds = dlms / 1000 % 60;
+        long dlMinutes = dlms / (60 * 1000) % 60;
+        long dlHours = dlms / (60 * 60 * 1000);
+        dayLengthTxtView.setText(String.format("Day Length: %02d:%02d:%02d", dlHours, dlMinutes, dlSeconds));
+
         if (currentTime.before(sunrise)) {
             long diff = sunrise.getTime() - currentTime.getTime();
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
             long diffHours = diff / (60 * 60 * 1000);
-            nateTimeTxtView.setText(String.format("Nate Time: %02d:%02d:%02d until sunrise", diffHours, diffMinutes, diffSeconds));
+            nateTimeTxtView.setText(String.format("Post-Industrial Time: %02d:%02d:%02d until sunrise", diffHours, diffMinutes, diffSeconds));
         }
         else if (currentTime.before(sunset)) {
             long diff = currentTime.getTime() - sunrise.getTime();
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
             long diffHours = diff / (60 * 60 * 1000);
-            nateTimeTxtView.setText(String.format("Nate Time: %02d:%02d:%02d after sunrise", diffHours, diffMinutes, diffSeconds));
+            nateTimeTxtView.setText(String.format("Post-Industrial Time: %02d:%02d:%02d after sunrise", diffHours, diffMinutes, diffSeconds));
         }
         else {
             // Get tomorrow's sunrise time then calculate the time until sunrise
@@ -154,7 +168,7 @@ public class ClockActivity extends AppCompatActivity {
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
             long diffHours = diff / (60 * 60 * 1000);
-            nateTimeTxtView.setText(String.format("Nate Time: %02d:%02d:%02d until sunrise", diffHours, diffMinutes, diffSeconds));
+            nateTimeTxtView.setText(String.format("Post-Industrial Time: %02d:%02d:%02d until sunrise", diffHours, diffMinutes, diffSeconds));
         }
 
     }

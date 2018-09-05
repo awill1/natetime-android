@@ -32,35 +32,33 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="Location:"
+        android:id="@+id/locationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:id="@+id/locationText"
-        android:layout_below="@+id/industrialTimeText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/sunsetText"
+        android:layout_marginTop="209dp"
+        android:text="Location:" />
 
     <TextView
-        android:text="Nate Time:"
+        android:id="@+id/nateTimeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/nateTimeText"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:text="Post-Industrial Time:"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
     <TextView
+        android:id="@+id/industrialTimeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Current Industrial Time:"
-        android:id="@+id/industrialTimeText"
-        android:layout_marginTop="27dp"
-        android:layout_below="@+id/nateTimeText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/sunsetText"
+        android:layout_marginTop="154dp"
+        android:text="Current Industrial Time:" />
 
     <Button
         android:text="Refresh"
@@ -70,4 +68,14 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/dayLengthText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/sunsetText"
+        android:layout_marginTop="86dp"
+        android:text="Day Length: "
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
 </RelativeLayout>
