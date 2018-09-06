@@ -12,7 +12,7 @@
     tools:context="com.awillinc.natetime.ClockActivity">
 
     <TextView
-        android:text="Sunset:"
+        android:text="@string/sunset_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="27dp"
@@ -22,7 +22,7 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="Sunrise:"
+        android:text="@string/sunrise_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -37,8 +37,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/sunsetText"
+        android:layout_alignLeft="@+id/sunsetText"
         android:layout_marginTop="209dp"
-        android:text="Location:" />
+        android:text="@string/location_label" />
 
     <TextView
         android:id="@+id/nateTimeText"
@@ -48,7 +49,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="20dp"
-        android:text="Post-Industrial Time:"
+        android:text="@string/post_industrial_time_label"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
     <TextView
@@ -57,11 +58,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/sunsetText"
+        android:layout_alignLeft="@+id/sunsetText"
         android:layout_marginTop="163dp"
-        android:text="Current Industrial Time:" />
+        android:text="@string/current_industrial_time_label" />
 
     <Button
-        android:text="Refresh"
+        android:text="@string/refresh_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/refreshButton"
@@ -75,7 +77,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/sunsetText"
+        android:layout_alignLeft="@+id/sunsetText"
         android:layout_marginTop="86dp"
-        android:text="Day Length: "
+        android:text="@string/day_length_label"
         android:textAppearance="@android:style/TextAppearance.Material.Large" />
 </RelativeLayout>

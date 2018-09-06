@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Nate Time</string>
+    <string name="location_label">Location:</string>
+    <string name="current_industrial_time_label">Current Industrial Time:</string>
+    <string name="day_length_label">Day Length:</string>
+    <string name="post_industrial_time_label">Post-Industrial Time:</string>
+    <string name="refresh_button">Refresh</string>
+    <string name="sunrise_label">Sunrise:</string>
+    <string name="sunset_label">Sunset:</string>
 </resources>
