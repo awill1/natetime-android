@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/sunsetText"
-        android:layout_marginTop="154dp"
+        android:layout_marginTop="163dp"
         android:text="Current Industrial Time:" />
 
     <Button
