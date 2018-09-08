@@ -77,9 +77,9 @@ public class ClockActivity extends AppCompatActivity { //this creates the CLASS 
         TextView txtView = findViewById(R.id.industrialTimeText); //#aaroncreated ... I KNOW you created industrialTimeText, but where did you define it? Are you defining it here? What
         txtView.setText(String.format(Locale.US, "Current Industrial Time: %s", formattedDate)); //#aaroncreated this text obviously
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Why are we requesting fine location? Coarse should be enough.
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
             System.out.println("No location permissions");
             return;
         }
@@ -92,13 +92,9 @@ public class ClockActivity extends AppCompatActivity { //this creates the CLASS 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager != null) {
 
-            // Maybe switch network with gps to use less battery, and we don't need high precision
+            // Only using network to use less battery, and we don't need high precision
             // see https://stackoverflow.com/questions/6775257/android-location-providers-gps-or-network-provider
-            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            if (location == null) {
-                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            }
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
             if (location != null) {
                 latitude = location.getLatitude();
