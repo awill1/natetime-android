@@ -135,13 +135,13 @@ public class ClockActivity extends AppCompatActivity { //this creates the CLASS 
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
             long diffHours = diff / (60 * 60 * 1000);
-            nateTimeTxtView.setText(String.format(Locale.US,"Post-Industrial Time: %02d:%02d:%02d until sunrise", diffHours, diffMinutes, diffSeconds));
+            nateTimeTxtView.setText(String.format(Locale.US,"Post-Industrial Time: Sunrise - %02d:%02d:%02d.", diffHours, diffMinutes, diffSeconds));
         } else if (currentTime.before(sunset)) {
             long diff = currentTime.getTime() - sunrise.getTime();
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
             long diffHours = diff / (60 * 60 * 1000);
-            nateTimeTxtView.setText(String.format(Locale.US,"Post-Industrial Time: %02d:%02d:%02d after sunrise", diffHours, diffMinutes, diffSeconds));
+            nateTimeTxtView.setText(String.format(Locale.US,"Post-Industrial Time: Sunrise + %02d:%02d:%02d.", diffHours, diffMinutes, diffSeconds));
         } else {
             // Get tomorrow's sunrise time then calculate the time until sunrise
             Calendar tomorrow = Calendar.getInstance();
@@ -155,7 +155,7 @@ public class ClockActivity extends AppCompatActivity { //this creates the CLASS 
             long diffSeconds = diff / 1000 % 60;
             long diffMinutes = diff / (60 * 1000) % 60;
             long diffHours = diff / (60 * 60 * 1000);
-            nateTimeTxtView.setText(String.format(Locale.US,"Post-Industrial Time: %02d:%02d:%02d until sunrise", diffHours, diffMinutes, diffSeconds));
+            nateTimeTxtView.setText(String.format(Locale.US,"Post-Industrial Time: Sunrise - %02d:%02d:%02d.", diffHours, diffMinutes, diffSeconds));
         }
     }
 }
