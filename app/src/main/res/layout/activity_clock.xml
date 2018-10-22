@@ -12,32 +12,12 @@
     tools:context="com.awillinc.natetime.ClockActivity">
 
     <TextView
-        android:text="@string/sunset_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
-        android:id="@+id/sunsetText"
-        android:layout_below="@+id/sunriseText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="@string/sunrise_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:id="@+id/sunriseText"
-        android:layout_below="@+id/locationText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
         android:id="@+id/locationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/sunsetText"
-        android:layout_alignLeft="@+id/sunsetText"
+        android:layout_alignStart="@+id/industrialTimeText"
+        android:layout_alignLeft="@+id/industrialTimeText"
         android:layout_marginTop="209dp"
         android:text="@string/location_label" />
 
@@ -57,8 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/sunsetText"
-        android:layout_alignLeft="@+id/sunsetText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="163dp"
         android:text="@string/current_industrial_time_label" />
 

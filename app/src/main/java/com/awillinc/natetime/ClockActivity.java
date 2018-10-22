@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.awillinc.natetime.util.PitCalendar;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -69,7 +71,7 @@ public class ClockActivity extends AppCompatActivity { //this creates the CLASS 
         Calendar c = Calendar.getInstance();
         Date currentTime = c.getTime();
 
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss", Locale.US);
         String formattedDate = df.format(currentTime); //#aaroncreated c and df. c is the current industrial time. df is a time/date format to work with. #aaroncreated formatteddate, which is the date in format df
         // formattedDate have current date/time
 
@@ -89,10 +91,13 @@ public class ClockActivity extends AppCompatActivity { //this creates the CLASS 
         double longitude = COLUMBUS_LONGITUDE;
 
         // Get the location
+        // Maybe change to Google Play services location API.
+        // See https://developer.android.com/training/location/
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager != null) {
 
             // Only using network to use less battery, and we don't need high precision
+            // NOTE: doesn't work in an airplane and maybe in foreign country without sim card!)
             // see https://stackoverflow.com/questions/6775257/android-location-providers-gps-or-network-provider
             Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
@@ -106,56 +111,14 @@ public class ClockActivity extends AppCompatActivity { //this creates the CLASS 
         TextView locationTxtView = findViewById(R.id.locationText);
         locationTxtView.setText(String.format(Locale.US,"Location: %f°, %f°", latitude, longitude));
 
-        // Calculate sunrise and sunset. Source is https://github.com/caarmen/SunriseSunset
-        Calendar[] sunriseSunset = ca.rmen.sunrisesunset.SunriseSunset.getSunriseSunset(c, latitude, longitude);
-        Date sunrise = sunriseSunset[0].getTime();
-        Date sunset = sunriseSunset[1].getTime();
-
-        // Get the sunrise time
-        TextView sunriseTxtView = findViewById(R.id.sunriseText);
-        sunriseTxtView.setText(String.format("Sunrise: %tR", sunrise));
-
-        // Get the sunset time
-        TextView sunsetTxtView = findViewById(R.id.sunsetText);
-        sunsetTxtView.setText(String.format("Sunset: %tR", sunset));
-
-        // Calculate post-industrial time
+        // Calculate the post-industrial time
         TextView nateTimeTxtView = findViewById(R.id.nateTimeText);
         TextView dayLengthTxtView = findViewById(R.id.dayLengthText);
 
-        //Get the day length and display it.
-        long dlms = sunset.getTime() - sunrise.getTime(); //day length in milliseconds.
-        long dlSeconds = dlms / 1000 % 60;
-        long dlMinutes = dlms / (60 * 1000) % 60;
-        long dlHours = dlms / (60 * 60 * 1000);
-        dayLengthTxtView.setText(String.format(Locale.US,"Day Length: %02d:%02d:%02d", dlHours, dlMinutes, dlSeconds));
-
-        if (currentTime.before(sunrise)) {
-            long diff = sunrise.getTime() - currentTime.getTime();
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000);
-            nateTimeTxtView.setText(String.format(Locale.US,"Sunrise - %02d:%02d:%02d", diffHours, diffMinutes, diffSeconds));
-        } else if (currentTime.before(sunset)) {
-            long diff = currentTime.getTime() - sunrise.getTime();
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000);
-            nateTimeTxtView.setText(String.format(Locale.US,"Sunrise + %02d:%02d:%02d", diffHours, diffMinutes, diffSeconds));
-        } else {
-            // Get tomorrow's sunrise time then calculate the time until sunrise
-            Calendar tomorrow = Calendar.getInstance();
-            // TODO: Test tomorrow being Jan 1
-            tomorrow.add(Calendar.DAY_OF_YEAR, 1);
-            Calendar[] tomorrowSunriseSunset = ca.rmen.sunrisesunset.SunriseSunset.getSunriseSunset(tomorrow, latitude, longitude);
-
-            Date tomorrowSunrise = tomorrowSunriseSunset[0].getTime();
-            Date tomorrowSunset = tomorrowSunriseSunset[1].getTime();
-            long diff = tomorrowSunrise.getTime() - currentTime.getTime();
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000);
-            nateTimeTxtView.setText(String.format(Locale.US,"Sunrise - %02d:%02d:%02d", diffHours, diffMinutes, diffSeconds));
-        }
+        PitCalendar pitTime = new PitCalendar(latitude, longitude, c);
+        String phaseIndicator = pitTime.get(PitCalendar.PIT_DAYTIME_NIGHTTIME) == PitCalendar.PIT_DAYTIME ? "+" : "-";
+        String phaseName = pitTime.get(PitCalendar.PIT_DAYTIME_NIGHTTIME) == PitCalendar.PIT_DAYTIME ? "Day" : "Night";
+        nateTimeTxtView.setText(String.format(Locale.US,"Sunrise %s %02d:%02d:%02d", phaseIndicator, pitTime.get(PitCalendar.PIT_HOUR), pitTime.get(PitCalendar.PIT_MINUTE), pitTime.get(PitCalendar.PIT_SECOND)));
+        dayLengthTxtView.setText(String.format(Locale.US,"%s Length: %02d:%02d:%02d", phaseName, pitTime.get(PitCalendar.PIT_PHASE_HOUR), pitTime.get(PitCalendar.PIT_PHASE_MINUTE), pitTime.get(PitCalendar.PIT_PHASE_SECOND)));
     }
 }
